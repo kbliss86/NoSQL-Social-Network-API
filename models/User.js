@@ -1,5 +1,5 @@
 //User.js mongoose model
-const { Schema, Types } = require('mongoose');
+const { Schema, model } = require('mongoose');
 const moment = require('moment');
 
 const UserSchema = new Schema(
@@ -40,4 +40,12 @@ const UserSchema = new Schema(
     }
 );
 
-module.exports = UserSchema;
+// get total count of friends on retrieval
+UserSchema.virtual('friendCount').get(function() {
+    return this.friends.length;
+});
+
+// create the User model using the UserSchema
+const User = model('User', UserSchema);
+
+module.exports = User;
